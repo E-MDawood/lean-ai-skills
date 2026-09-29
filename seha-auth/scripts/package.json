@@ -1,0 +1,12 @@
+{
+  "name": "seha-auth-scripts",
+  "private": true,
+  "type": "module",
+  "description": "Self-contained Playwright automation for the seha-auth skill. Not a dependency of any consuming project.",
+  "scripts": {
+    "postinstall": "playwright install chromium"
+  },
+  "dependencies": {
+    "playwright": "^1.59.1"
+  }
+}

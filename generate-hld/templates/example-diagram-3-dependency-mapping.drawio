@@ -1,0 +1,142 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <!-- API Box -->
+    <mxCell id="2" value="&lt;b&gt;Eligibility Engine API&lt;/b&gt;&lt;br&gt;(.NET 8.0)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="40" y="430" width="220" height="80" as="geometry"/>
+    </mxCell>
+
+    <!-- Data Stores group background -->
+    <mxCell id="3" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;" vertex="1" parent="1">
+      <mxGeometry x="340" y="40" width="280" height="280" as="geometry"/>
+    </mxCell>
+    <mxCell id="4" value="&lt;b&gt;Data Stores&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="340" y="45" width="280" height="25" as="geometry"/>
+    </mxCell>
+
+    <!-- SQL Server -->
+    <mxCell id="5" value="&lt;b&gt;SQL Server&lt;/b&gt;&lt;br&gt;Beneficiary · Family · Insurance&lt;br&gt;Dependent · Country · Residency&lt;br&gt;SegmentCoverageLog · AccidentDetails" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="360" y="75" width="240" height="120" as="geometry"/>
+    </mxCell>
+
+    <!-- Hangfire -->
+    <mxCell id="6" value="&lt;b&gt;Hangfire&lt;/b&gt;&lt;br&gt;SQL Server Storage&lt;br&gt;Queues: critical / high / default" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="360" y="215" width="240" height="80" as="geometry"/>
+    </mxCell>
+
+    <!-- Messaging group background -->
+    <mxCell id="7" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;" vertex="1" parent="1">
+      <mxGeometry x="340" y="360" width="280" height="110" as="geometry"/>
+    </mxCell>
+    <mxCell id="8" value="&lt;b&gt;Messaging&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="340" y="365" width="280" height="25" as="geometry"/>
+    </mxCell>
+
+    <!-- Kafka -->
+    <mxCell id="9" value="&lt;b&gt;Kafka&lt;/b&gt;&lt;br&gt;Audit / Event Logs (Producer only)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="360" y="390" width="240" height="65" as="geometry"/>
+    </mxCell>
+
+    <!-- Monitoring group background -->
+    <mxCell id="10" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;" vertex="1" parent="1">
+      <mxGeometry x="340" y="510" width="280" height="110" as="geometry"/>
+    </mxCell>
+    <mxCell id="11" value="&lt;b&gt;Monitoring&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="340" y="515" width="280" height="25" as="geometry"/>
+    </mxCell>
+
+    <!-- Elastic APM -->
+    <mxCell id="12" value="&lt;b&gt;Elastic APM&lt;/b&gt;&lt;br&gt;Staging + Production only" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="360" y="540" width="240" height="65" as="geometry"/>
+    </mxCell>
+
+    <!-- External Services group background -->
+    <mxCell id="13" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;" vertex="1" parent="1">
+      <mxGeometry x="710" y="40" width="280" height="680" as="geometry"/>
+    </mxCell>
+    <mxCell id="14" value="&lt;b&gt;External HTTP Services (Basic Auth)&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=12;fontColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="710" y="45" width="280" height="25" as="geometry"/>
+    </mxCell>
+
+    <!-- Seha -->
+    <mxCell id="15" value="&lt;b&gt;Seha&lt;/b&gt;&lt;br&gt;Auth · Token Validation · User Info" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="730" y="75" width="240" height="65" as="geometry"/>
+    </mxCell>
+
+    <!-- CCHI -->
+    <mxCell id="16" value="&lt;b&gt;CCHI&lt;/b&gt;&lt;br&gt;Health Insurance Data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="730" y="160" width="240" height="65" as="geometry"/>
+    </mxCell>
+
+    <!-- GOSI -->
+    <mxCell id="17" value="&lt;b&gt;GOSI&lt;/b&gt;&lt;br&gt;Social Insurance Data&lt;br&gt;(EntityId + SourceId headers)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="730" y="245" width="240" height="75" as="geometry"/>
+    </mxCell>
+
+    <!-- Family Tree -->
+    <mxCell id="18" value="&lt;b&gt;Family Tree&lt;/b&gt;&lt;br&gt;Household Data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="730" y="340" width="240" height="65" as="geometry"/>
+    </mxCell>
+
+    <!-- Dependents -->
+    <mxCell id="19" value="&lt;b&gt;Dependents&lt;/b&gt;&lt;br&gt;Dependent Persons" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="730" y="425" width="240" height="65" as="geometry"/>
+    </mxCell>
+
+    <!-- Patient Registry -->
+    <mxCell id="20" value="&lt;b&gt;Patient Registry&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="730" y="510" width="240" height="55" as="geometry"/>
+    </mxCell>
+
+    <!-- Traffic Accident -->
+    <mxCell id="21" value="&lt;b&gt;Traffic Accident&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="730" y="585" width="240" height="55" as="geometry"/>
+    </mxCell>
+
+    <!-- Catchment -->
+    <mxCell id="22" value="&lt;b&gt;Catchment&lt;/b&gt;&lt;br&gt;Geographic Catchment Area" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="730" y="660" width="240" height="50" as="geometry"/>
+    </mxCell>
+
+    <!-- Edges from API -->
+    <mxCell id="23" value="EF Core + Dapper" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;" edge="1" source="2" target="5" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="24" value="Job Scheduling" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;" edge="1" source="2" target="6" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="25" value="Produce" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;" edge="1" source="2" target="9" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="26" value="Instrument" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;" edge="1" source="2" target="12" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="27" value="JWT Validation" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;" edge="1" source="2" target="15" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="28" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;" edge="1" source="2" target="16" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="29" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;" edge="1" source="2" target="17" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="30" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;" edge="1" source="2" target="18" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="31" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;" edge="1" source="2" target="19" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="32" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;" edge="1" source="2" target="20" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="33" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;" edge="1" source="2" target="21" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="34" value="HTTP" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=10;" edge="1" source="2" target="22" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+  </root>
+</mxGraphModel>

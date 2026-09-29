@@ -1,0 +1,50 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <!-- API container background -->
+    <mxCell id="2" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;dashed=1;strokeWidth=2;" vertex="1" parent="1">
+      <mxGeometry x="30" y="80" width="480" height="380" as="geometry"/>
+    </mxCell>
+    <mxCell id="3" value="&lt;b&gt;Eligibility Engine API (.NET 8.0)&lt;/b&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=13;fontColor=#666666;" vertex="1" parent="1">
+      <mxGeometry x="30" y="85" width="480" height="30" as="geometry"/>
+    </mxCell>
+
+    <!-- Hangfire Scheduler -->
+    <mxCell id="4" value="&lt;b&gt;Hangfire Scheduler&lt;/b&gt;&lt;br&gt;Queues: critical · high · default&lt;br&gt;Workers: configurable (default 15)&lt;br&gt;Storage: SQL Server" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="70" y="130" width="390" height="120" as="geometry"/>
+    </mxCell>
+
+    <!-- EngineServiceJobs -->
+    <mxCell id="5" value="&lt;b&gt;EngineServiceJobs&lt;/b&gt;&lt;br&gt;Scheduled background processing&lt;br&gt;Eligibility data refresh · Batch operations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="70" y="290" width="390" height="120" as="geometry"/>
+    </mxCell>
+
+    <!-- AppVariables Config -->
+    <mxCell id="6" value="&lt;b&gt;AppVariables (Config)&lt;/b&gt;&lt;br&gt;UseHangfire flag&lt;br&gt;WorkerCount&lt;br&gt;BatchSize · BatchJobs&lt;br&gt;DemographicsDataRefreshIntervalInDays&lt;br&gt;InsuranceDataRefreshIntervalInDays" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="590" y="40" width="300" height="170" as="geometry"/>
+    </mxCell>
+
+    <!-- SQL Server -->
+    <mxCell id="7" value="&lt;b&gt;SQL Server&lt;/b&gt;&lt;br&gt;Beneficiary · Insurance · Family&lt;br&gt;Dependent · SegmentCoverageLog&lt;br&gt;AccidentDetails · Residency" style="shape=mxgraph.flowchart.database;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;" vertex="1" parent="1">
+      <mxGeometry x="590" y="280" width="300" height="170" as="geometry"/>
+    </mxCell>
+
+    <!-- Edge: Config -> Hangfire -->
+    <mxCell id="8" value="controls" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=11;" edge="1" source="6" target="4" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- Edge: Hangfire -> EngineServiceJobs -->
+    <mxCell id="9" value="triggers" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=11;" edge="1" source="4" target="5" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- Edge: EngineServiceJobs -> SQL Server -->
+    <mxCell id="10" value="reads / updates" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=11;" edge="1" source="5" target="7" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+  </root>
+</mxGraphModel>

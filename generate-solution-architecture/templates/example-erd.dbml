@@ -1,0 +1,69 @@
+// Example ERD demonstrating every DBML convention this skill uses.
+// Read this before writing a real erd.dbml — adapt the patterns, not the content.
+
+Project ExampleSolution {
+  database_type: 'SQL Server'
+  Note: 'Example only — generated from a fictitious ModelSnapshot.cs to demonstrate conventions.'
+}
+
+Table Orders {
+  Id int [pk, increment]
+  CustomerId int [not null, note: 'Logical ref to Customers.Id — not an EF/DB-enforced FK (no navigation property in the model)']
+  Status int [not null]
+  Notes nvarchar(250)
+  CreatedAt datetime2 [not null]
+  UpdatedAt datetime2
+}
+
+Table OrderLines {
+  Id int [pk, increment]
+  OrderId int [not null]
+  ProductSku nvarchar(50) [not null]
+  Quantity int [not null, default: 1]
+
+  indexes {
+    OrderId
+  }
+}
+
+Table Customers {
+  // Externally-assigned ID (e.g. synced from an identity provider) — NOT an identity column.
+  // Always call this out explicitly with a note; it's an easy detail to miss and it's meaningful.
+  Id int [pk, note: 'NOT an identity column — externally assigned, unlike every other table here']
+  Email nvarchar(100) [not null]
+  CreatedAt datetime2 [not null]
+}
+
+Table Tags {
+  Id int [pk, increment]
+  Name nvarchar(50) [not null, unique]
+}
+
+// Join table (many-to-many) — composite primary key via the indexes block.
+Table OrderTags {
+  OrderId int [not null]
+  TagId int [not null]
+
+  indexes {
+    (OrderId, TagId) [pk]
+    TagId
+  }
+}
+
+// Ref lines: ONLY for relationships the ORM actually configured with a real FK constraint.
+// Orders.CustomerId is deliberately NOT a Ref here — see its note above.
+Ref: OrderLines.OrderId > Orders.Id [delete: cascade]
+Ref: OrderTags.OrderId > Orders.Id [delete: cascade]
+Ref: OrderTags.TagId > Tags.Id [delete: cascade]
+
+// TableGroups are visual organization only — no schema meaning.
+TableGroup Sales {
+  Orders
+  OrderLines
+  Tags
+  OrderTags
+}
+
+TableGroup Identity {
+  Customers
+}

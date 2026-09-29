@@ -1,0 +1,47 @@
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+
+    <!-- One function -> collaboration -> interface -> external-system chain, copy-adapt per integration -->
+
+    <mxCell id="func1" value="Identity Auth Function" style="shape=mxgraph.archimate3.application;appType=func;archiType=rounded;fillColor=#99CCFF;strokeColor=#000000;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;" vertex="1" parent="1">
+      <mxGeometry x="40" y="60" width="180" height="70" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="collab1" value="Identity Collaboration" style="shape=mxgraph.archimate3.application;appType=collab;archiType=square;fillColor=#99CCFF;strokeColor=#000000;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;" vertex="1" parent="1">
+      <mxGeometry x="280" y="60" width="180" height="70" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="iface1" value="OAuth Interface" style="shape=mxgraph.archimate3.application;appType=interface;archiType=square;fillColor=#99CCFF;strokeColor=#000000;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;" vertex="1" parent="1">
+      <mxGeometry x="520" y="75" width="150" height="40" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="ext1" value="Identity Provider" style="shape=mxgraph.archimate3.application;appType=comp;archiType=square;fillColor=#99CCFF;strokeColor=#000000;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;" vertex="1" parent="1">
+      <mxGeometry x="730" y="60" width="170" height="70" as="geometry"/>
+    </mxCell>
+
+    <!-- Direct-call variant: no negotiated interface (e.g. an instrumentation/monitoring agent) -->
+    <mxCell id="func2" value="Monitoring Function" style="shape=mxgraph.archimate3.application;appType=func;archiType=rounded;fillColor=#99CCFF;strokeColor=#000000;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;" vertex="1" parent="1">
+      <mxGeometry x="40" y="180" width="180" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="serv2" value="APM Service" style="shape=mxgraph.archimate3.application;appType=serv;archiType=rounded;fillColor=#99CCFF;strokeColor=#000000;html=1;whiteSpace=wrap;fontSize=11;align=center;verticalAlign=middle;" vertex="1" parent="1">
+      <mxGeometry x="280" y="195" width="180" height="40" as="geometry"/>
+    </mxCell>
+
+    <!-- Edges: plain labeled orthogonal -->
+    <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="func1" target="collab1" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="collab1" target="iface1" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;html=1;" edge="1" source="iface1" target="ext1" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e4" value="direct call" style="edgeStyle=orthogonalEdgeStyle;html=1;fontSize=11;" edge="1" source="func2" target="serv2" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+  </root>
+</mxGraphModel>

@@ -1,0 +1,819 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "version": "1.0.0",
+  "title": "OpenAPI Validation Rules Catalog",
+  "description": "Comprehensive catalog of OpenAPI validation rules organized by category. Compatible with VitePress sidebar configuration.",
+  "metadata": {
+    "totalRules": 54,
+    "totalCategories": 16,
+    "severityLevels": [
+      "CRITICAL",
+      "HIGH",
+      "MEDIUM",
+      "LOW"
+    ],
+    "vitepress": {
+      "compatible": true,
+      "mapping": {
+        "text": "Display text for navigation",
+        "link": "Path to documentation file (leaf nodes only)",
+        "items": "Child items (categories have items, rules have links)",
+        "collapsed": "Whether section is collapsed by default",
+        "isActive": "Whether the rule is active for validation filtering"
+      }
+    }
+  },
+  "items": [
+    {
+      "id": "data-validation",
+      "text": "Data Validation",
+      "type": "category",
+      "description": "Rules for validating data types, constraints, and schema definitions",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "array-constraints",
+          "text": "Array Constraints",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/array-constraints.md",
+          "severity": "CRITICAL",
+          "description": "Ensures array properties have minItems and maxItems constraints",
+          "references": "JSON-SCHEMA-ARRAY – Array Constraints (JSON Schema, MEDIUM)"
+        },
+        {
+          "id": "enum-validation",
+          "text": "Enum Validation",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/enum-validation.md",
+          "severity": "HIGH",
+          "description": "Ensures enum arrays are valid, non-empty, type-consistent, and contain no duplicates",
+          "references": "JSON-SCHEMA-ENUM – Enum Validation (JSON Schema, HIGH)"
+        },
+        {
+          "id": "integer-constraints",
+          "text": "Integer Constraints",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/integer-constraints.md",
+          "severity": "HIGH",
+          "description": "Ensures integer properties have minimum and maximum constraints",
+          "references": "JSON-SCHEMA-INTEGER – Integer Constraints (JSON Schema, MEDIUM)"
+        },
+        {
+          "id": "string-constraints",
+          "text": "String Constraints",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/string-constraints.md",
+          "severity": "MEDIUM",
+          "description": "Ensures string properties have minLength and maxLength constraints",
+          "references": "JSON-SCHEMA-STRING – String Constraints (JSON Schema, MEDIUM)"
+        }
+      ]
+    },
+    {
+      "id": "custom-extensions",
+      "text": "Custom Extensions",
+      "type": "category",
+      "description": "Rules for custom x-* extension properties and vendor-specific features",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "endpoint-timeout",
+          "text": "Endpoint Timeout",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/endpoint-timeout.md",
+          "severity": "MEDIUM",
+          "description": "Ensures each operation has an x-timeout property",
+          "references": "Internal validator guidance"
+        },
+        {
+          "id": "language-support",
+          "text": "Language Support",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/language-support.md",
+          "severity": "LOW",
+          "description": "Ensures string properties have x-languages array for internationalization",
+          "references": "Internal validator guidance"
+        }
+      ]
+    },
+    {
+      "id": "api-patterns",
+      "text": "API Patterns",
+      "type": "category",
+      "description": "Rules for common API design patterns and architectural practices",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "async-processing-202",
+          "text": "Asynchronous Processing (202 Accepted)",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/async-processing-202.md",
+          "severity": "HIGH",
+          "description": "Ensures 202 responses document polling endpoints using Location headers",
+          "references": "HP-009 – Asynchronous Processing (202 Accepted) (HTTP, HIGH)"
+        },
+        {
+          "id": "batch-operations",
+          "text": "Batch / Bulk Operations",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/batch-operations.md",
+          "severity": "MEDIUM",
+          "description": "Ensures batch endpoints use 207 Multi-Status to communicate partial results",
+          "references": "MP-004 – Batch / Bulk Operations (207 Multi-Status) (HTTP, MEDIUM)"
+        },
+        {
+          "id": "conditional-requests",
+          "text": "Conditional Requests",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/conditional-requests.md",
+          "severity": "MEDIUM",
+          "description": "Ensures resources support HTTP conditional headers and 412 responses",
+          "references": "MP-007 – Conditional Requests (HTTP, MEDIUM)"
+        }
+      ]
+    },
+    {
+      "id": "error-handling",
+      "text": "Error Handling",
+      "type": "category",
+      "description": "Rules for proper error handling, reporting, and security",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "no-stack-traces",
+          "text": "No Stack Traces in Error Responses",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/no-stack-traces.md",
+          "severity": "MEDIUM",
+          "description": "Ensures error response examples do not leak stack traces or internal implementation details",
+          "references": "MP-012 – No Stack Traces in Error Responses (HTTP, MEDIUM)"
+        },
+        {
+          "id": "request-validation-errors",
+          "text": "Request Validation Errors (422)",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/request-validation-errors.md",
+          "severity": "MEDIUM",
+          "description": "Ensures APIs distinguish malformed (400) and semantic (422) validation errors",
+          "references": "MP-011 – Request Validation Errors (422) (HTTP, MEDIUM)"
+        }
+      ]
+    },
+    {
+      "id": "http-headers",
+      "text": "HTTP Headers",
+      "type": "category",
+      "description": "Rules for proper HTTP header usage, naming conventions, and standards compliance",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "caching-headers",
+          "text": "Caching Headers",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/caching-headers.md",
+          "severity": "HIGH",
+          "description": "Ensures GET/HEAD responses document Cache-Control, validators, and 304 support",
+          "references": "HP-008 – Caching Headers for GET/HEAD (HTTP, HIGH)"
+        },
+        {
+          "id": "content-negotiation",
+          "text": "Content Negotiation Headers",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/content-negotiation.md",
+          "severity": "MEDIUM",
+          "description": "Ensures APIs properly implement content negotiation headers",
+          "references": "HP-002 – Content Negotiation Headers (HTTP, MEDIUM)"
+        },
+        {
+          "id": "content-type-header",
+          "text": "Content-Type Response Header Validation",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/content-type-header.md",
+          "severity": "CRITICAL",
+          "description": "Ensures responses with bodies have Content-Type headers per RFC 9110",
+          "references": "CR-005 – Content-Type Response Header Validation (HTTP, CRITICAL)"
+        },
+        {
+          "id": "deprecation-headers",
+          "text": "Deprecation Headers",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/deprecation-headers.md",
+          "severity": "HIGH",
+          "description": "Ensures APIs properly communicate deprecation status using headers",
+          "references": "HP-007 – Deprecation Headers (HTTP, HIGH)"
+        },
+        {
+          "id": "header-naming-conventions",
+          "text": "Header Naming Conventions",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/header-naming-conventions.md",
+          "severity": "HIGH",
+          "description": "Ensures HTTP headers follow proper naming conventions",
+          "references": "LP-003 – Header Naming Conventions (HTTP, HIGH)"
+        },
+        {
+          "id": "idempotency-key",
+          "text": "Idempotency Key Headers",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/idempotency-key.md",
+          "severity": "HIGH",
+          "description": "Ensures non-idempotent operations support Idempotency-Key headers",
+          "references": "HP-004 – Idempotency Key Headers (HTTP, HIGH)"
+        },
+        {
+          "id": "location-header-201",
+          "text": "Location Header for 201 Responses",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/location-header-201.md",
+          "severity": "HIGH",
+          "description": "Ensures 201 Created responses have a required Location header as per RFC 7231",
+          "references": "RFC-9110 – HTTP Semantics - Location Header (IETF, HIGH)"
+        },
+        {
+          "id": "pagination-headers",
+          "text": "Pagination Response Headers",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/pagination-headers.md",
+          "severity": "MEDIUM",
+          "description": "Ensures collection endpoints describe pagination parameters, Link headers, and total counts",
+          "references": "MP-009 – Pagination Response Headers (HTTP, MEDIUM)"
+        },
+        {
+          "id": "prefer-header",
+          "text": "Prefer Header Support",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/prefer-header.md",
+          "severity": "LOW",
+          "description": "Encourages POST/PUT/PATCH operations to honour Prefer header and emit Preference-Applied responses",
+          "references": "LP-007 – Prefer Header Support (HTTP, LOW)"
+        },
+        {
+          "id": "rate-limiting-headers",
+          "text": "Rate Limiting Headers",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/rate-limiting-headers.md",
+          "severity": "HIGH",
+          "description": "Ensures APIs include rate limiting headers to communicate limits",
+          "references": "HP-005 – Rate Limiting Headers (HTTP, HIGH)"
+        },
+        {
+          "id": "versioning-headers",
+          "text": "Versioning Headers",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/versioning-headers.md",
+          "severity": "HIGH",
+          "description": "Ensures APIs implement proper versioning strategy with headers",
+          "references": "HP-006 – API Versioning Headers (HTTP, HIGH)"
+        }
+      ]
+    },
+    {
+      "id": "http-methods",
+      "text": "HTTP Methods",
+      "type": "category",
+      "description": "Rules for proper HTTP method usage and consistency",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "head-method-consistency",
+          "text": "HEAD Method Consistency",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/head-method-consistency.md",
+          "severity": "LOW",
+          "description": "Ensures HEAD endpoints exist alongside GET and return the same status codes",
+          "references": "LP-008 – HEAD Method Consistency (HTTP, LOW)"
+        },
+        {
+          "id": "method-response-codes",
+          "text": "Method-Specific Response Codes",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/method-response-codes.md",
+          "severity": "HIGH",
+          "description": "Ensures HTTP methods use appropriate response codes per RFC 9110",
+          "references": "HP-001 – Method-Specific Response Codes (HTTP, HIGH)"
+        },
+        {
+          "id": "options-discovery",
+          "text": "OPTIONS Method for Discovery",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/options-discovery.md",
+          "severity": "LOW",
+          "description": "Ensures resources expose OPTIONS with Allow header listing supported methods",
+          "references": "LP-009 – OPTIONS Method for Discovery (HTTP, LOW)"
+        }
+      ]
+    },
+    {
+      "id": "http-semantics",
+      "text": "HTTP Semantics",
+      "type": "category",
+      "description": "Rules for HTTP protocol semantics and RFC 9110 compliance",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "method-semantics",
+          "text": "HTTP Method Semantics Compliance",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/method-semantics.md",
+          "severity": "CRITICAL",
+          "description": "Ensures HTTP methods follow RFC 9110 semantic requirements",
+          "references": "CR-001 – HTTP Method Semantics Compliance (HTTP, CRITICAL)"
+        },
+        {
+          "id": "path-params-required",
+          "text": "Path Parameters Must Be Required",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/path-params-required.md",
+          "severity": "CRITICAL",
+          "description": "Ensures all path parameters are marked as required per OpenAPI spec",
+          "references": "CR-007 – Path Parameters Must Be Required (HTTP, CRITICAL)"
+        },
+        {
+          "id": "request-body-validation",
+          "text": "Request Body Validation",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/request-body-validation.md",
+          "severity": "CRITICAL",
+          "description": "Ensures request bodies follow HTTP method semantics per RFC 9110",
+          "references": "CR-006 – Request Body Validation (HTTP, CRITICAL)"
+        },
+        {
+          "id": "required-success-response",
+          "text": "Required Success Response",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/required-success-response.md",
+          "severity": "CRITICAL",
+          "description": "Ensures every operation defines at least one successful response (2xx)",
+          "references": "CR-003 – Required Success Response (HTTP, CRITICAL)"
+        },
+        {
+          "id": "response-code-range",
+          "text": "Response Code Range Validation",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/response-code-range.md",
+          "severity": "CRITICAL",
+          "description": "Ensures HTTP status codes are valid and used appropriately per RFC 9110",
+          "references": "CR-002 – Response Code Range Validation (HTTP, CRITICAL)"
+        }
+      ]
+    },
+    {
+      "id": "response-formatting",
+      "text": "Response Formatting",
+      "type": "category",
+      "description": "Rules for API response formatting, structure, and documentation standards",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "default-response",
+          "text": "Default Error Response",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/default-response.md",
+          "severity": "MEDIUM",
+          "description": "Ensures operations document a default error response with structured payload",
+          "references": "MP-003 – Default Error Response (HTTP, MEDIUM)"
+        },
+        {
+          "id": "problem-details-format",
+          "text": "RFC 9457 Problem Details Format",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/problem-details-format.md",
+          "severity": "HIGH",
+          "description": "Ensures error responses follow RFC 9457 Problem Details format",
+          "references": "HP-003 – RFC 9457 Problem Details Format (HTTP, HIGH)"
+        },
+        {
+          "id": "response-body-standards",
+          "text": "Response Body Standards",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/response-body-standards.md",
+          "severity": "MEDIUM",
+          "description": "Ensures response bodies follow standard patterns and best practices",
+          "references": "HP-010 – Response Body Standards (HTTP, MEDIUM)"
+        },
+        {
+          "id": "response-description-quality",
+          "text": "Response Description Quality",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/response-description-quality.md",
+          "severity": "MEDIUM",
+          "description": "Ensures response descriptions explain behaviour instead of repeating status codes",
+          "references": "MP-002 – Response Description Quality (HTTP, MEDIUM)"
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "text": "Security",
+      "type": "category",
+      "description": "Rules for API security, authentication, and authorization",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "security-response-codes",
+          "text": "Security Response Codes",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/security-response-codes.md",
+          "severity": "HIGH",
+          "description": "Ensures APIs define proper security response codes (401, 403, 429)",
+          "references": "HP-010 – Security Response Codes (HTTP, HIGH)"
+        }
+      ]
+    },
+    {
+      "id": "openapi-structure",
+      "text": "OpenAPI Specification (Structure)",
+      "type": "category",
+      "description": "Rules for OpenAPI schema structure, composition, and type definitions",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "array-items-required",
+          "text": "Array Items Required",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/array-items-required.md",
+          "severity": "CRITICAL",
+          "description": "Ensures array type schemas define the items property",
+          "references": "OAS-CR-002 – Array Items Required (OpenAPI, CRITICAL)"
+        },
+        {
+          "id": "discriminator-property-exists",
+          "text": "Discriminator Property Exists",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/discriminator-property-exists.md",
+          "severity": "CRITICAL",
+          "description": "Ensures discriminator propertyName exists in schema properties",
+          "references": "OAS-CR-006 – Discriminator Property Exists (OpenAPI, CRITICAL)"
+        },
+        {
+          "id": "no-ref-siblings",
+          "text": "No $ref Siblings",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/no-ref-siblings.md",
+          "severity": "LOW",
+          "description": "Ensures $ref does not have sibling properties (use allOf for composition)",
+          "references": "OAS-CR-001 – No $ref Siblings (OpenAPI, LOW)"
+        },
+        {
+          "id": "schema-structure-required",
+          "text": "Schema Structure Required",
+          "type": "rule",
+          "isActive": true,
+          "link": "rules/schema-structure-required.md",
+          "severity": "CRITICAL",
+          "description": "Ensures schema objects have type, properties, composition keywords, or $ref",
+          "references": "OAS-CR-003 – Schema Type or Properties Required (OpenAPI, CRITICAL)"
+        }
+      ]
+    },
+    {
+      "id": "openapi-documentation",
+      "text": "OpenAPI Specification (Documentation)",
+      "type": "category",
+      "description": "Rules for OpenAPI documentation quality, examples, and tagging",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "examples-valid",
+          "text": "Examples Valid",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/examples-valid.md",
+          "severity": "HIGH",
+          "description": "Ensures example values match their schema definitions",
+          "references": "OAS-HP-007 – Examples Valid Against Schema (OpenAPI, HIGH)"
+        },
+        {
+          "id": "examples-value-xor",
+          "text": "Examples Value XOR ExternalValue",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/examples-value-xor.md",
+          "severity": "MEDIUM",
+          "description": "Ensures Example objects have either value or externalValue, not both",
+          "references": "OAS-MP-006 – Examples Value or External Value (OpenAPI, MEDIUM)"
+        },
+        {
+          "id": "tags-consistency",
+          "text": "Tags Consistency",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/tags-consistency.md",
+          "severity": "MEDIUM",
+          "description": "Ensures tags are used consistently and defined globally",
+          "references": "OAS-MP-003 – Tags Consistency (OpenAPI, MEDIUM)"
+        }
+      ]
+    },
+    {
+      "id": "openapi-operations",
+      "text": "OpenAPI Specification (Operations)",
+      "type": "category",
+      "description": "Rules for OpenAPI operation definitions, IDs, and descriptions",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "operation-description",
+          "text": "Operation Description",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/operation-description.md",
+          "severity": "MEDIUM",
+          "description": "Ensures all operations have meaningful descriptions",
+          "references": "OAS-MP-001 – Operation Descriptions (OpenAPI, MEDIUM)"
+        },
+        {
+          "id": "operation-id-missing",
+          "text": "Operation ID Missing",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/operation-id-missing.md",
+          "severity": "CRITICAL",
+          "description": "Ensures every operation has an operationId defined",
+          "references": "OAS-CR-008 – Operation ID Missing (OpenAPI, CRITICAL)"
+        },
+        {
+          "id": "operation-id-format",
+          "text": "Operation ID Format",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/operation-id-format.md",
+          "severity": "HIGH",
+          "description": "Ensures operationIds are URL-safe and follow naming conventions",
+          "references": "OAS-HP-002 – Operation ID Format (OpenAPI, HIGH)"
+        },
+        {
+          "id": "operation-id-unique",
+          "text": "Operation ID Unique",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/operation-id-unique.md",
+          "severity": "HIGH",
+          "description": "Ensures operationId values are unique across all operations",
+          "references": "OAS-HP-001 – Operation IDs Are Unique (OpenAPI, HIGH)"
+        }
+      ]
+    },
+    {
+      "id": "openapi-parameters",
+      "text": "OpenAPI Specification (Parameters)",
+      "type": "category",
+      "description": "Rules for OpenAPI parameter definitions, schemas, and path parameters",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "parameter-description",
+          "text": "Parameter Description",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/parameter-description.md",
+          "severity": "MEDIUM",
+          "description": "Ensures all parameters have meaningful descriptions",
+          "references": "OAS-MP-002 – Parameter Descriptions (OpenAPI, MEDIUM)"
+        },
+        {
+          "id": "parameter-schema-required",
+          "text": "Parameter Schema Required",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/parameter-schema-required.md",
+          "severity": "CRITICAL",
+          "description": "Ensures parameters have either schema or content, not both, not neither",
+          "references": "OAS-CR-004 – Parameter Schema or Content Required (OpenAPI, CRITICAL)"
+        },
+        {
+          "id": "path-parameters-match",
+          "text": "Path Parameters Match",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/path-parameters-match.md",
+          "severity": "HIGH",
+          "description": "Ensures path parameters in operations match the path template",
+          "references": "OAS-HP-003 – Path Parameters Match Declaration (OpenAPI, HIGH)"
+        },
+        {
+          "id": "path-parameters-not-empty",
+          "text": "Path Parameters Not Empty",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/path-parameters-not-empty.md",
+          "severity": "HIGH",
+          "description": "Ensures path parameter declarations are not empty {}",
+          "references": "OAS-HP-005 – Path Parameters Not Empty (OpenAPI, HIGH)"
+        }
+      ]
+    },
+    {
+      "id": "openapi-paths",
+      "text": "OpenAPI Specification (Paths)",
+      "type": "category",
+      "description": "Rules for OpenAPI path definitions and URL structures",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "path-keys-valid",
+          "text": "Path Keys Valid",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/path-keys-valid.md",
+          "severity": "HIGH",
+          "description": "Ensures path keys dont include query strings or have trailing slashes",
+          "references": "OAS-HP-004 – Path Keys Valid (OpenAPI, HIGH)"
+        }
+      ]
+    },
+    {
+      "id": "openapi-servers",
+      "text": "OpenAPI Specification (Servers)",
+      "type": "category",
+      "description": "Rules for OpenAPI server definitions, URLs, and variables",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "required-servers",
+          "text": "Required Servers",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/required-servers.md",
+          "severity": "HIGH",
+          "description": "Ensures OpenAPI 3.x documents have a servers array defined",
+          "references": "OAS-HP-008 – Required Servers Array (OpenAPI, HIGH)"
+        },
+        {
+          "id": "server-url-valid",
+          "text": "Server URL Valid",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/server-url-valid.md",
+          "severity": "HIGH",
+          "description": "Ensures server URLs are valid and not placeholder examples",
+          "references": "OAS-HP-006 – Server URL Valid (OpenAPI, HIGH)"
+        },
+        {
+          "id": "server-variables",
+          "text": "Server Variables",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/server-variables.md",
+          "severity": "MEDIUM",
+          "description": "Ensures server template variables are properly defined with defaults",
+          "references": "OAS-MP-005 – Server Variables Validation (OpenAPI, MEDIUM)"
+        },
+        {
+          "id": "server-environments-required",
+          "text": "Server Environments Required",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/server-environments-required.md",
+          "severity": "MEDIUM",
+          "description": "Ensures all four required environments (development, testing, staging, production) are present in the servers array",
+          "references": "OAS-HP-009 – Required Server Environments (OpenAPI, MEDIUM)"
+        }
+      ]
+    },
+    {
+      "id": "openapi-security",
+      "text": "OpenAPI Specification (Security)",
+      "type": "category",
+      "description": "Rules for OpenAPI security scheme definitions and requirements",
+      "collapsed": false,
+      "hide": false,
+      "isActive": true,
+      "items": [
+        {
+          "id": "security-schemes-defined",
+          "text": "Security Schemes Defined",
+          "type": "rule",
+          "hide": false,
+          "isActive": true,
+          "link": "rules/security-schemes-defined.md",
+          "severity": "CRITICAL",
+          "description": "Ensures security requirements reference defined security schemes",
+          "references": "OAS-CR-005 – Security Schemes Defined (OpenAPI, CRITICAL)"
+        }
+      ]
+    }
+  ]
+}
