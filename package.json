@@ -1,0 +1,16 @@
+{
+  "name": "lean-ai-skills",
+  "version": "1.0.0",
+  "description": "Sync Lean AI skills between this repo and a project's .claude/skills folder",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "lean-skills": "cli/lean-skills.mjs"
+  },
+  "files": [
+    "cli"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -63,7 +63,24 @@ your-project/
             └── SKILL.md
 ```
 
-A CLI is planned that will sync skills from this repo into a project's `.claude/skills/` folder, so you won't need to copy them by hand. Until it is ready, copy the folders manually.
+### With the `lean-skills` CLI
+
+The CLI in [`cli/`](cli/) does the copying for you. It needs Node 18+ and git, and it uses your existing git credentials. Run it from the root of your project:
+
+```sh
+# Pull common + frontend skills into ./.claude/skills
+npx github:E-MDawood/lean-ai-skills pull --frontend
+
+# Pull common + backend skills (pass both flags for a full-stack repo)
+npx github:E-MDawood/lean-ai-skills pull --backend
+
+# Push ./.claude/skills/forms to frontend/forms in this repo, as a pull request
+npx github:E-MDawood/lean-ai-skills push --type frontend --name forms
+```
+
+- `pull` replaces local skills that have the same name and leaves your other local skills alone.
+- `push` replaces a skill with the same name wherever it is in the repo, even in a different folder. It pushes a new `skill/<name>-…` branch and opens a pull request instead of pushing to `main`. If the GitHub CLI (`gh`) isn't installed, it prints the link for opening the pull request yourself.
+- `node_modules` and `.DS_Store` are never copied in either direction.
 
 ## Adding or updating a skill
 
