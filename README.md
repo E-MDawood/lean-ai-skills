@@ -82,6 +82,35 @@ npx github:E-MDawood/lean-ai-skills push --type frontend --name forms
 - `push` replaces a skill with the same name wherever it is in the repo, even in a different folder. It pushes a new `skill/<name>-…` branch and opens a pull request instead of pushing to `main`. If the GitHub CLI (`gh`) isn't installed, it prints the link for opening the pull request yourself.
 - `node_modules` and `.DS_Store` are never copied in either direction.
 
+### Recommended setup
+
+**Frontend repos:** add the commands to the `scripts` in your app's `package.json`, so everyone on the project uses the same commands:
+
+```json
+{
+  "scripts": {
+    "skills:pull": "npx -y github:E-MDawood/lean-ai-skills pull --frontend",
+    "skills:push": "npx -y github:E-MDawood/lean-ai-skills push"
+  }
+}
+```
+
+```sh
+npm run skills:pull
+npm run skills:push -- --type frontend --name forms
+```
+
+**Backend (.NET) repos:** there's no `package.json` here, and nothing in .NET plays the same role for one-off commands. Run the `npx` command directly from the repo root. It works the same in PowerShell, cmd and bash, as long as Node is installed:
+
+```sh
+npx -y github:E-MDawood/lean-ai-skills pull --backend
+npx -y github:E-MDawood/lean-ai-skills push --type backend --name db-standards
+```
+
+Add these lines to the backend repo's own README or `CLAUDE.md`, so the team can find them.
+
+`pull` always fetches the latest skills from `main`, so run it whenever you want to update.
+
 ## Adding or updating a skill
 
 1. Create a folder named after the skill (kebab-case) inside `common/`, `frontend/` or `backend/`, or edit an existing one.
