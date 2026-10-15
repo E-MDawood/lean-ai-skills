@@ -70,6 +70,10 @@ Checklist for the reviewer:
 
 When a story requires static client-side resources (e.g. report templates), treat the confirmed folder/resource structure as the frontend source of truth. Include exact metadata needed for implementation (labels, paths, enum values, fallback behavior). If a referenced folder is missing and the user confirms that means zero items, document the zero-item case explicitly rather than leaving it implicit.
 
+### Cache invalidation map (Frontend only)
+
+For every mutation a story calls (create, update, delete, or any action endpoint), list which cached data it makes stale **according to the business rules**, not just according to which controller or module the endpoint belongs to. Record it in the story's `### Data / Metadata / Contract Details` as a small table: mutation, the queries/screens it must refresh, and the business reason (e.g. "Record discharge → authorization details and the authorizations list, because the status changes to Discharged"). Include cross-module effects explicitly; they are the ones generated or default invalidation never covers. If a mutation is meant to refresh nothing, say so. This map is what the quality gate checks the implementation against, whatever the project uses for server state (RTK Query tags, React Query keys, SWR keys, manual refetches, generated or hand-written).
+
 ## Architecture diagrams (Backend only)
 
 When a story involves system or service design, store diagrams in `docs/diagrams/` and reference them from the relevant story section, but include enough textual description in the plan itself that an implementer doesn't need to open the diagram to understand the approach.
