@@ -24,6 +24,7 @@ Perform a thorough, actionable code review that a senior engineer would give. Fo
    - Unhandled error cases, missing return statements
    - Incorrect logic (wrong operator, inverted condition, missing edge case)
    - Type mismatches or unsafe type coercions
+   - Stale data after mutations (frontend only): every create/update/delete must invalidate or refetch all cached data it affects by business rule, including data owned by other modules or controllers. Check the effective rules (generated defaults plus overrides, or hand-written tags/query keys); flag overrides that replace generated invalidation instead of extending it
 
    **Security**
    - SQL injection, XSS, command injection, path traversal
