@@ -2,22 +2,24 @@
 name: seha-auth
 description: >
   Use this skill to obtain a dev/test auth token for an app that is embedded as
-  an iframe inside the SEHA platform, and write it into that project's local env
-  file (e.g. VITE_DEV_TOKEN in environments/.env.development.local), so the app
-  can be driven and screenshotted without going through SEHA's real login UI by
-  hand. Trigger when a browser-driven check (e.g. the sprint-planning skill's UI
-  validation step, or browser-check/run) is blocked needing SEHA authentication
-  or a specific role, when the user asks to "get a token for <role>", "log in as
-  <role> for testing", or references a SEHA users JSON file. Complementary to
-  browser-check/run — this is the concrete answer to "what's the auth method"
-  for SEHA-embedded projects specifically, not a replacement for them.
+  an iframe inside the SEHA platform, for any repo: in a frontend repo it can
+  also write the token into the project's local env file (e.g. VITE_DEV_TOKEN)
+  so the app can be driven in a browser; in a backend repo (or for direct API
+  calls) it just returns the token for an Authorization header. Trigger when a
+  browser-driven check (browser-check, frontend-testing, the sprint-planning
+  quality gate) or an API check (backend-testing) needs SEHA authentication or
+  a specific role, when the user asks to "get a token for <role>", "log in as
+  <role> for testing", or references a SEHA users JSON file. It answers "what's
+  the auth method" for SEHA-embedded projects; it doesn't drive the app itself.
 ---
 
 # SEHA Auth Skill
 
 Drives SEHA's real login flow headlessly with Playwright to obtain a valid app
 token for a given user/role, caches it for reuse within the same session, and
-writes it into the target project's env file. Ported from the headed,
+returns it. In a frontend repo it can also write it into the project's env file
+(Step 7); in a backend repo, or for direct API calls, the caller puts it in the
+`Authorization: Bearer <token>` header instead. Ported from the headed,
 UI-driven flow in the sibling `seha-login-test-flow` project — same selectors,
 same mechanics, but non-interactive and headless by default.
 
@@ -25,6 +27,28 @@ This skill is generic: it doesn't hardcode a project's service name, JSON
 file, or URLs. Everything is either read from the project's own environment
 files, asked once and remembered, or asked every time it's genuinely
 ambiguous (see "Resolve which user" below).
+
+---
+
+## Is this a SEHA project?
+
+Other skills (browser-check, frontend-testing, backend-testing) check this
+before deciding how to log in. A project counts as SEHA-embedded when **any**
+of these is true:
+
+- `docs/seha-auth/config.json` exists (this skill was already set up here).
+- An env or config file has a variable or key naming SEHA, e.g.
+  `VITE_SEHA_WEB_URL`, or a `Seha` section in `appsettings*.json`.
+- A URL in the env or config files points at a SEHA host (a hostname
+  containing `seha`, e.g. `seha.sa` or `seha.devclan.io`).
+- The auth code names SEHA, e.g. a function like `authenticateFromSeha`, a
+  SEHA redirect, or a token issuer or JWT authority pointing at a SEHA host.
+
+If one of these matches, use this skill without asking the user how to
+authenticate, and say which sign you found (e.g. "found `VITE_SEHA_WEB_URL`
+in `environments/.env.development`, using seha-auth"). This skill still asks
+for what it can't derive itself (Steps 2–4). If none match, the caller asks
+the user how to authenticate.
 
 ---
 
@@ -103,8 +127,10 @@ field in this order before asking:
 - `otp` → default to `"1234"` (the fixed value SEHA's dev/test environments
   accept for automated login — this only ever runs against dev/test SEHA
   environments in the first place, see "Scope" below).
-- `envVarName` → default to `VITE_DEV_TOKEN`.
-- `envFilePath` → default to `environments/.env.development.local`.
+- `envVarName` → default to `VITE_DEV_TOKEN`. **Frontend repos only**: skip it
+  in a backend repo, where the token is never written to a file.
+- `envFilePath` → default to `environments/.env.development.local`. **Frontend
+  repos only**, same as `envVarName`.
 - `serviceName` → **no derivable default** — always ask the user the first
   time (e.g. "منصة الاحالات" for referral-frontend), then persist it as this
   project's default. Treat that persisted value as a default, not a fact
@@ -229,6 +255,24 @@ If the cached token is later rejected by the server during actual use (a 401
 or an explicit invalid-token response while testing), treat it as expired
 regardless of what `expiresAt` says, drop the cache entry, and re-run Step 6.
 
+### Shared SEHA logins: one role at a time
+
+Several roles can sit behind the **same SEHA account** (one username, several
+accordion/account entries in the users JSON, e.g. a provider, a Team Leader, a
+System Manager and committee members all under one test user). Logging in as
+one of them **invalidates the tokens of the others** on that account: the app's
+backend then answers `401` with a "please log in to SEHA" message even though
+the cached token hasn't expired.
+
+So, when a check needs several roles:
+- group them by `username`, and run the roles that share an account **one after
+  another**, fetching a fresh token right before each (don't fetch them all up
+  front);
+- roles on different SEHA accounts don't affect each other and can be fetched
+  together;
+- treat a `401` "log in to SEHA" on a cached, unexpired token as this case:
+  drop that cache entry and re-run Step 6 for that role.
+
 ---
 
 ## Step 6 — Run the flow
@@ -285,9 +329,18 @@ middle segment, parse as JSON, `exp` is seconds since epoch) to compute
 
 ---
 
-## Step 7 — Write the token into the target env file
+## Step 7 — Write the token into the target env file (frontend repos only)
 
-Update `<config.envFilePath>` in the consuming project: set
+Skip this step in a backend repo, or whenever the caller only needs the token
+for direct API calls (e.g. `backend-testing`, or `frontend-testing` checking a
+request outside the browser): return the token and stop.
+
+Also skip it when the caller logs in some other way the app supports, for
+example by opening the app with the token in the URL (this repo:
+`/?token=<token>`, picked up by `src/HOCs/ProtectPage.tsx`), which avoids
+restarting the dev server for every role switch.
+
+Otherwise, update `<config.envFilePath>` in the consuming project: set
 `<config.envVarName>=<token>`, replacing the existing line for that variable
 if present, appending it otherwise. Leave every other line in the file
 untouched.
@@ -302,7 +355,8 @@ to come back up rather than navigating right away.
 ## Step 8 — Report
 
 State plainly: which role/user was authenticated as, whether it came from
-cache or a fresh run, and where the token was written. On failure, state
+cache or a fresh run, and where the token went (the env file, or returned to the
+caller only). On failure, state
 exactly what failed and why (from the script's `ERROR=` line), and don't
 silently fall back to anything.
 
@@ -310,10 +364,11 @@ silently fall back to anything.
 
 ## Scope
 
-This only ever produces tokens for **dev/test SEHA environments** — it exists
-to satisfy a `import.meta.env.DEV`-only bypass in the consuming app (see
-`src/shared/utils/auth.ts`'s `authenticateFromSeha`), which only activates in
-development builds. It is not a path to obtaining staging/production tokens,
+This only ever produces tokens for **dev/test SEHA environments**. In a
+frontend repo it exists to satisfy a dev-only bypass in the consuming app (this
+repo: `src/shared/utils/auth.ts`'s `authenticateFromSeha`, active only in
+development builds); in a backend repo it's used to call the dev/local API as a
+given role. It is not a path to obtaining staging/production tokens,
 and the hardcoded dev-environment OTP (`"1234"`) reflects that — this skill
 should never be pointed at a production SEHA environment.
 

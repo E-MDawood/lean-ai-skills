@@ -26,13 +26,16 @@ Skills are grouped into three folders by the kind of project they are for:
 | [sprint-planning](common/sprint-planning/) | Plans a sprint end to end, from Jira story capture to tasks and the quality gate |
 | [bug-fixer](common/bug-fixer/) | Fixes QA, staging or production bugs from a Jira ticket or a description |
 | [code-reviewer](common/code-reviewer/) | Reviews code for bugs, security, performance and style |
+| [backend-testing](common/backend-testing/) | Tests API endpoints against their contract: fixes clear issues in a backend repo, reports them from a frontend repo |
+| [db-test-setup](common/db-test-setup/) | Snapshots and restores dev/test database data around a test, for any database engine |
+| [seha-auth](common/seha-auth/) | Gets a dev token for apps embedded in SEHA, for the browser or for API calls |
 
 ### Frontend
 
 | Skill | What it does |
 | --- | --- |
-| [browser-check](frontend/browser-check/) | Runs the app in a real browser to check a UI change and take screenshots |
-| [seha-auth](frontend/seha-auth/) | Gets a dev token for apps embedded in SEHA and writes it to the local env file |
+| [browser-check](frontend/browser-check/) | Drives the app in a headless browser: starts it, logs in as a role, navigates, and captures screenshots, requests and console errors |
+| [frontend-testing](frontend/frontend-testing/) | Tests a batch or story end to end, on mocks or the real backend, fixes clear frontend issues and reports backend ones |
 | [forms](frontend/forms/) | Creates and edits forms with react-hook-form and `RenderFormFields` |
 | [mock-server](frontend/mock-server/) | Sets up MSW mock API handlers for local development |
 | [vitest](frontend/vitest/) | Writes and fixes Vitest tests and the CI test pipeline |

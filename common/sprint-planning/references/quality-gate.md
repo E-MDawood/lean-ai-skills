@@ -41,13 +41,30 @@ For each distinct UI surface (a page, a modal, a flow-state) a story touches:
 2. **Check whether reaching the surface requires authentication, or a specific role.** Never hardcode, guess, or invent a login method, test credentials, an auth-bypass flag, or a way to switch roles — auth setup varies per project and is the user's decision, not something to work around unilaterally. If the agent doesn't already have a working way to authenticate as whatever role the surface needs, **stop and ask the user directly**: which credentials/account to use, how to log in, or how to switch to the required role. Same rule as the mock-skill gap above: never silently skip past this or improvise a workaround. If the user has no answer and says to skip, note it as an explicit known gap the same way.
    - This is exactly the situation `browser-check` (see step 3 below) already asks about natively — if it's the one doing the driving, its own auth prompt covers this. This step matters most when `run` is doing the driving instead and has no such awareness built in.
    - For a project whose app is embedded inside SEHA specifically, the `seha-auth` skill is the concrete answer to that auth question: it gets a real dev/test token headlessly and writes it into the project's env file. Use it (or point the user at it) instead of improvising a SEHA workaround from scratch.
-3. **Launch and drive the app headless** — delegate to the `run` skill first, it already knows how to do this per project type. If `run`'s preferred tool isn't available or it fails, fall back to the `browser-check` skill instead of improvising a Playwright/Puppeteer setup by hand — it's built for exactly this fallback role and already knows to ask about the auth method rather than assume one. No visible browser window, ever, regardless of which of the two ends up driving.
+3. **Launch and drive the app headless** — delegate to the `run` skill first, it already knows how to do this per project type. If `run`'s preferred tool isn't available or it fails, fall back to the `browser-check` skill instead of improvising a Playwright/Puppeteer setup by hand — it's the project's browser capability (starting the app, logging in, driving and capturing) and already knows to ask about the auth method rather than assume one. No visible browser window, ever, regardless of which of the two ends up driving.
 4. **Capture one screenshot** of the surface in its expected state(s), and tell whichever tool is driving to save it under `docs/browser-check/<STORY-KEY>/<surface-name>.png` — `browser-check` knows this destination and will target it directly when asked. If the tool doing the driving doesn't support a destination argument, take whatever it produced and move it there yourself; don't leave it wherever the tool's own default is.
 5. **Compare against the intended look**:
    - A design exists (`docs/designs/`, `docs/stories/<key>/`) → compare against it directly: layout, content, behavior.
    - No design exists → compare against the look the implementation was written to produce: nothing visually broken (overlap, cut-off text, misalignment), all relevant states rendering correctly, labels/text correct in both languages including RTL layout, and logical correctness (conditional fields/buttons actually behaving as specified, not just present).
 6. **End with exactly one screenshot per surface** at `docs/browser-check/<STORY-KEY>/<surface-name>.png`. If a screenshot reveals an issue that gets fixed, delete the stale screenshot when re-capturing — never leave more than one image for the same surface.
 7. **Report findings** — what was checked, what passed, what didn't and got fixed, what was skipped and why — rather than silently passing or failing.
+
+## Testing gates
+
+Two skills test the work itself, alongside the checks above. Both produce the same four-list report (tested and working · frontend issues · backend issues · blocked scenarios, each with its reason: needs data, unsafe to proceed, or backend bug) and use `db-test-setup` when a scenario needs data the environment doesn't have, or writes data that must be restored afterwards.
+
+| Gate | Skill | Frontend repo | Backend repo |
+|---|---|---|---|
+| **Backend gate** | `backend-testing` | Contract check: tests the **deployed** dev backend against the contract and reports backend issues; never edits backend code | Self-review: tests the API **running locally**, fixes what it finds, re-tests until clean, before handing over |
+| **Frontend gate** | `frontend-testing` | Runs the batch's planned scenarios in the browser (through `browser-check`): against **mocks** during implementation, against the **real backend** once it's deployed | n/a |
+
+**Order in a frontend repo:** run `backend-testing` first once the backend says it has deployed. It's cheaper, and it catches contract problems before the slower browser scenarios run into them. Then run `frontend-testing` against the real backend.
+
+**Feeding the plan:** backend issues from either gate go into the batch's `api-changes-inconsistencies.md` as open rows; rows a gate confirms fixed are removed and the confirmation recorded in `analysis-notes.md`. Blocked scenarios stay listed until they can be run.
+
+**Re-entry:** after each backend fix round, re-run the gates for the fixed rows (and a quick regression pass) rather than the whole set.
+
+The **UI validation** check above is the lighter version for a single surface while it's being built. `frontend-testing` replaces it once the full set of scenarios is being run.
 
 ## After the gate
 
