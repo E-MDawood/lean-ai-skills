@@ -1,0 +1,86 @@
+name: Notify Teams
+
+# Posts a card to the team's Teams channel whenever main changes, including merged pull requests.
+# The Power Automate webhook URL is stored in the TEAMS_WEBHOOK_URL repository secret.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build and send the Teams card
+        env:
+          TEAMS_WEBHOOK_URL: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.event.after }}
+          AUTHOR: ${{ github.event.head_commit.author.name }}
+          MESSAGE: ${{ github.event.head_commit.message }}
+          COMMITS_JSON: ${{ toJSON(github.event.commits) }}
+          COMPARE_URL: ${{ github.event.compare }}
+          REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+        run: |
+          if [ -z "$TEAMS_WEBHOOK_URL" ]; then
+            echo "TEAMS_WEBHOOK_URL secret is not set; skipping."
+            exit 0
+          fi
+
+          # On the first push to a branch, BEFORE is all zeros, so fall back to the last commit only.
+          if git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            RANGE="$BEFORE $AFTER"
+          else
+            RANGE="$AFTER^ $AFTER"
+          fi
+
+          SKILLS=$(git diff --name-only $RANGE \
+            | { grep -E '^(common|frontend|backend)/[^/]+/' || true; } \
+            | cut -d/ -f1,2 | sort -u | sed 's/^/- /')
+          [ -z "$SKILLS" ] && SKILLS="No skills changed (README, CLI or repo files only)."
+
+          COMMITS=$(echo "$COMMITS_JSON" | jq 'length')
+          TITLE=$(echo "$MESSAGE" | head -n 1)
+
+          jq -n \
+            --arg skills "$SKILLS" \
+            --arg author "$AUTHOR" \
+            --arg title "$TITLE" \
+            --arg commits "$COMMITS" \
+            --arg compare "$COMPARE_URL" \
+            --arg repo "$REPO_URL" \
+            '{
+              type: "message",
+              attachments: [{
+                contentType: "application/vnd.microsoft.card.adaptive",
+                content: {
+                  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+                  type: "AdaptiveCard",
+                  version: "1.4",
+                  body: [
+                    { type: "TextBlock", size: "Medium", weight: "Bolder", text: "Lean AI skills updated" },
+                    { type: "FactSet", facts: [
+                      { title: "By", value: $author },
+                      { title: "Change", value: $title },
+                      { title: "Commits", value: $commits }
+                    ]},
+                    { type: "TextBlock", weight: "Bolder", text: "Skills changed", spacing: "Medium" },
+                    { type: "TextBlock", text: $skills, wrap: true },
+                    { type: "TextBlock", text: "To get the latest skills, run from your project root:\n\nFrontend: npx -y github:E-MDawood/lean-ai-skills pull --frontend\n\nBackend: npx -y github:E-MDawood/lean-ai-skills pull --backend", wrap: true, isSubtle: true, spacing: "Medium" }
+                  ],
+                  actions: [
+                    { type: "Action.OpenUrl", title: "View changes", url: $compare },
+                    { type: "Action.OpenUrl", title: "Open repo", url: $repo }
+                  ]
+                }
+              }]
+            }' > payload.json
+
+          curl -fsS -X POST -H "Content-Type: application/json" -d @payload.json "$TEAMS_WEBHOOK_URL"
