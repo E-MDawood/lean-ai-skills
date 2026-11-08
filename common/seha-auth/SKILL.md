@@ -157,12 +157,24 @@ written.
 
 ## Step 3 — Resolve the users JSON file
 
-Ask for the path if one hasn't already been given or found in the project
-(no fixed on-disk convention to search for — this varies per project, always
-confirm rather than guess a location). Once resolved, persist the path as
-`usersJsonPath` in `docs/seha-auth/config.json` (same file as the rest of
-Step 2's config, same "ask once, remember" treatment) so later runs don't
-need to ask again.
+**Default location: `docs/seha-auth/users.json`**, next to `config.json`, so a
+project's SEHA setup lives in one folder and is committed together (see
+"Gitignore" below). Use it unless the project already has its users file
+somewhere else (`usersJsonPath` in the config, or a path the user gives) or a
+reason to split it. The usual reason is a project that serves **several SEHA
+services**, each with its own test accounts (for example the eligibility
+project): then ask the user how to split it (one file per service, such as
+`docs/seha-auth/<service>/users.json`, is a sensible proposal) and keep one
+config per file. Whatever the path, persist it as `usersJsonPath` in the
+config so later runs don't ask again.
+
+When the entries fall into meaningful groups, add a `category` field to each
+entry that groups similar roles (for example the party: `CNHI`, `Provider`,
+`TPA`, `General User`) and sort the entries by it, so the file reads by group.
+Decide from the project, not from a count: six roles in three parties are worth
+grouping. Skip it when grouping adds nothing, for example a file of two or
+three users, or roles that each stand alone. `category` is optional and nothing
+in this skill depends on it.
 
 **Never accept this file as a chat file attachment — always ask for it to be
 pasted as inline plain text in the message instead, or read directly from a
@@ -184,6 +196,7 @@ Expected shape, one entry per account:
 ```json
 [
   {
+    "category": "TPA",
     "id": "cd9c0047-458a-4baf-9c63-08066c43a894",
     "label": "TPA (...)",
     "username": "7111111218",
