@@ -29,6 +29,7 @@ Skills are grouped into three folders by the kind of project they are for:
 | [backend-testing](common/backend-testing/) | Tests API endpoints against their contract: fixes clear issues in a backend repo, reports them from a frontend repo |
 | [db-test-setup](common/db-test-setup/) | Snapshots and restores dev/test database data around a test, for any database engine |
 | [seha-auth](common/seha-auth/) | Gets a dev token for apps embedded in SEHA, for the browser or for API calls |
+| [seha-accounts-check](common/seha-accounts-check/) | Checks the SEHA test accounts from the PM's accounts workbook (roles, service menu, permission IDs in SEHA's token, then the mapping to the app's token), generates the users and permissions reference files, and re-checks only what changed when the sheet is updated |
 
 ### Frontend
 
