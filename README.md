@@ -50,7 +50,9 @@ Skills are grouped into three folders by the kind of project they are for:
 | [db-standards](backend/db-standards/) | Applies Lean's SQL Server and EF Core database standards |
 | [validate-swagger](backend/validate-swagger/) | Validates `swagger.json` against OpenAPI rules and fixes safe issues |
 | [generate-deployment-document](backend/generate-deployment-document/) | Generates the deployment document (`.docx`) for staging and production |
-| [generate-hld](backend/generate-hld/) | Generates or updates the High-Level Design document |
+| [generate-hld](backend/generate-hld/) | Generates or updates the High-Level Design document, from the code or (when it's ahead) the sprint planning |
+| [generate-simple-hld](backend/generate-simple-hld/) | Generates a short first-time HLD (integrations, backend, frontend, database) from the sprint planning |
+| [generate-simple-erd](backend/generate-simple-erd/) | Generates a simple ERD: tables without columns, stored procedures, optional links, from the planning or the code |
 | [generate-solution-architecture](backend/generate-solution-architecture/) | Generates ArchiMate architecture diagrams and the database ERD |
 
 ## Using the skills in a project
